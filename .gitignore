@@ -1,0 +1,11 @@
+_private/
+_handoff/
+*.zip
+*.rar
+*.7z
+.env*
+__pycache__/
+*.pyc
+*.log
+_smoke/
+.claude/

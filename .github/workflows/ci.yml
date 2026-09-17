@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  api-tests:
+    name: api-tests (collect)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Install and collect
+        run: pip install -r company-F/api-tests/requirements.txt && pytest company-F/api-tests --collect-only -q
+
+  autogame:
+    name: autogame (import config)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Install xvfb
+        # pyautogui needs an X display at import time on Linux.
+        run: sudo apt-get update && sudo apt-get install -y xvfb
+      - name: Install and import
+        run: xvfb-run -a bash -c 'pip install -r company-D/selenium-autogame/requirements.txt && cd company-D/selenium-autogame && python -c "import gamevariable, urlvariable"'
+
+  k6:
+    name: k6 (run load script)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: grafana/setup-k6-action@v1
+      - name: Run k6
+        # --no-thresholds: the public echo target does not serve the real login
+        # endpoint, so the production thresholds cannot be met. This job proves the
+        # script is valid and executable; thresholds apply against a real target.
+        run: k6 run --no-thresholds --vus 1 --duration 1s -e TARGET_URL=https://httpbin.org company-F/load-test-k6/http_load.js
+
+  gitleaks:
+    name: gitleaks (secret scan)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

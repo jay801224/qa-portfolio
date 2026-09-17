@@ -1,0 +1,42 @@
+# ── 必要 ──
+playwright>=1.50.0
+openpyxl>=3.1.5
+python-dotenv>=1.0.1
+requests>=2.32.3
+anthropic>=0.101.0
+
+# ── BDD 測試框架 ──
+pytest>=7.0.0                          # 測試框架
+pytest-bdd>=8.0.0                      # BDD Gherkin .feature 支援
+pytest-playwright>=0.7.0               # Playwright + pytest 整合
+pytest-xdist>=3.0.0                    # 並行執行（-n auto）
+
+# ── 加密（UAT API Login 需要）──
+cryptography>=42.0.0                   # api_login.py — AES-GCM 密碼加密
+
+# ── 選用（依功能需求安裝）──
+oracledb>=2.0.0                        # qa_auto_dealer.py — Oracle DB 連線（thin mode）
+axe-playwright-python>=0.1.7       # web_quality_scanner.py — 無障礙掃描
+google-generativeai>=0.8.0         # gemini_vision.py — Gemini API 截圖分析
+playwright-stealth>=1.0.6          # web_html_crawler.py — 反爬蟲模式
+msgpack>=1.0.0                     # websocket_api_scan.py — WS binary frame 解碼
+slack-sdk>=3.0.0                   # send_slack.py — Slack Bot 通知
+flask>=3.0.0                       # dashboard/dashboard.py — QA Dashboard Web UI
+flask-sock>=0.7.0                  # dashboard/dashboard.py — WebSocket 即時 log
+python-owasp-zap-v2.4>=0.0.21     # shared/zap_scanner.py — OWASP ZAP API
+Pillow>=10.0.0                     # canvas_check.py — Canvas 截圖比對
+opencv-python>=4.8.0               # shared/OCR/ — 幀清晰度計算 + 牌面偵測
+numpy>=1.24.0                      # shared/OCR/ — OpenCV 依賴
+pytesseract>=0.3.10                # shared/OCR/ — 備用 OCR（Tesseract）
+psutil>=5.9.0                      # run_all_currencies.py — 進程管理
+pyotp>=2.9.0                       # vpn_keeper.py — TOTP 驗證碼自動產生（有 secret 時全自動）
+pyzbar>=0.1.9                      # decode_totp_qr.py — QR code 解碼（提取 TOTP secret）
+pywinauto>=0.6.8                   # vpn_keeper.py — FortiClient GUI 自動化（填 OTP + 按連接）
+pywin32>=300                       # vpn_keeper.py — pywinauto 依賴（Windows COM/UI）
+bandit>=1.7.0                      # security_audit.py — Python 安全漏洞掃描（Bandit）
+semgrep>=1.50.0                    # security_audit.py — 靜態碼安全分析（Semgrep）
+pip-audit>=2.7.0                   # security_audit.py — Python 依賴漏洞檢查
+# Trivy: Docker image aquasec/trivy，不需 pip（security_audit.py — 依賴 CVE + 機密掃描）
+# Nuclei: Windows binary，從 github.com/projectdiscovery/nuclei/releases 下載（security_audit.py — 主動漏洞驗證）
+dirsearch>=0.4.3                   # hacker-exam/third — CTF 滲透 web 目錄爆破（替代 nmap 的 web 偵察）
+# katana: Go binary，安裝 `winget install GoLang.Go` 後 `go install github.com/projectdiscovery/katana/cmd/katana@latest`（hacker-exam/third — 動態 web crawler）

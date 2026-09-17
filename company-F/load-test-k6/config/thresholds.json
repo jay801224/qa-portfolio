@@ -1,0 +1,27 @@
+{
+  "http": {
+    "http_req_duration": {
+      "p95": 500,
+      "p99": 1000,
+      "description": "HTTP 請求延遲閾值 (ms)"
+    },
+    "http_req_failed": {
+      "rate": 0.01,
+      "description": "HTTP 請求錯誤率上限 (1%)"
+    },
+    "login_duration": {
+      "p95": 3000,
+      "description": "登入 API 延遲閾值 (ms)"
+    }
+  },
+  "websocket": {
+    "ws_connect_duration": {
+      "p95": 500,
+      "description": "WebSocket 連線建立延遲閾值 (ms)"
+    },
+    "ws_errors": {
+      "rate": 0.05,
+      "description": "WebSocket 錯誤率上限 (5%)"
+    }
+  }
+}

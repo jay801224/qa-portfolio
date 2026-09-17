@@ -1,0 +1,6 @@
+# Minimal dependencies for company-D/selenium-autogame.
+# Derived from the actual imports across the 25 modules; everything else is stdlib
+# (HTMLTestRunner is vendored in this folder).
+selenium>=4.0
+requests>=2.31
+pyautogui>=0.9.54

@@ -1,0 +1,5 @@
+# Minimal dependencies for company-F/api-tests.
+# Derived from the actual imports in this folder; everything else is stdlib.
+pytest>=7.0
+requests>=2.31
+python-dotenv>=1.0
